@@ -25,35 +25,44 @@
             </p>
         </section>
         <section class="material">
-            <div id="general-score">0:0</div>
+            <div id="score">SmartUser 0 : 0 Computer</div>
 
             <div id="user-table" class="playing-table">
-                <div class="chosen-cards">
+                <div id='user-cards' class="chosen-cards">
 
                 </div>
                 <div class="temp-score">
-                    <h2>You have:</h2>
+                    <h2 id="user-temp-score"></h2>
+                    <h2 id="user-text"></h2>
 
+                </div>
+                <div class="user-buttons">
+                    <button id="take-card">Take the card</button>
+                    <button id="enough-cards">Enough</button>
                 </div>
 
             </div>
             <div id='computer-table' class="playing-table">
-                <div class="chosen-cards">
+                <div id='computer-cards' class="chosen-cards">
 
                 </div>
                 <div class="temp-score">
-                    <h2>YComputer has:</h2>
+                    <h2 id="computer-temp-score"></h2>
+                    <h2 id="computer-text"></h2>
 
                 </div>
+
 
             </div>
 
             <div id="game-result">
 
             </div>
-            <div id="play-again">
+            <div class="play-again ">
+                <button id="play-again" class="display-none"> Play Again</button>
 
             </div>
+
 
 
         </section>
