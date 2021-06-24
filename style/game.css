@@ -1,0 +1,38 @@
+.container {
+    width: 80%;
+    max-width: 95vw;
+}
+
+.material{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 80px auto auto 60px;
+}
+
+#general-score{
+    grid-column: 1/3;
+    grid-row: 1/2;
+    border: 1px solid red;
+}
+#user-table{
+    grid-column: 1/2;
+    grid-row: 2/3;
+    border: 1px solid red;
+}
+#computer-table{
+    grid-column: 2/3;
+    grid-row: 2/3;
+    border: 1px solid red;
+}
+#game-result{
+    grid-column: 1/3;
+    grid-row: 3/4;
+    border: 1px solid red;
+}
+#play-again{
+    grid-column: 1/3;
+    grid-row: 4/5;
+    border: 1px solid red;
+}
+
+
