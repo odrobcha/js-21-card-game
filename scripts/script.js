@@ -12,12 +12,12 @@
     let userScore = 0;
     let computerScore = 0;
 
-    let cards = () => {
+    const cards = () => {
         let cards = [];
 
         for (let i = 6; i <= 14; i++){
             let cardName = '';
-            let value = null;
+            let value = 0;
             if (i<=10){
                 cardName = i;
                 value = i;
@@ -43,10 +43,8 @@
             cards.push({value: value, suit: 'clubs', cardName: cardName, imgSrc: "img/clubs.png"});
             cards.push({value: value, suit: 'heart', cardName: cardName, imgSrc: "img/heart.png"});
         }
-        return cards;
+         return cards;
     };
-
-
 
     const randomNumber = (num) =>{
         return Math.floor(Math.random()*num);
@@ -70,6 +68,27 @@
         document.getElementById(targetDivId).appendChild(cardItem);
     }
 
+    const displayScore = ()=>{
+        score.innerHTML = `SmartUser ${userScore} : ${computerScore} Computer`;
+    }
+
+    const hideUserButtons = () =>{
+        takeCardElement.classList.add('display-none');
+        enoughCardElement.classList.add('display-none');
+    }
+
+    const displayUserButtons = () =>{
+        takeCardElement.classList.remove('display-none');
+        enoughCardElement.classList.remove('display-none');
+    }
+
+    const displayPlayAgainButton = () =>{
+        playAgainElement.classList.remove('display-none');
+    }
+
+    const hidePlayAgainButton = ()=>{
+        playAgainElement.classList.add('display-none');
+    }
 
     let takeCardUser = ()=>{
         let randomCardNumber = randomNumber(cardDeck.length);
@@ -78,17 +97,15 @@
         displayCard(userCard.cardName, userCard.imgSrc, 'user-cards');
         userTempScoreElement.innerHTML = `You have: ${tempUserScore} points`;
         if (tempUserScore > 21){
-            document.getElementById('user-text').innerHTML = `It is more then you need. Pity, but you lost`;
+            gameResultElement.innerHTML = `You took more then you need. Pity, but you lost...`;
             computerScore += 1;
-            score.innerHTML = `SmartUser ${userScore} : ${computerScore} Computer`;
-            takeCardElement.classList.add('display-none');
-            enoughCardElement.classList.add('display-none');
-            playAgainElement.classList.remove('display-none');
-
+            displayScore();
+            hideUserButtons();
+            displayPlayAgainButton();
         }
         cardDeck.splice(randomCardNumber, 1);
-
     }
+
     let computerPlay = () => {
         let randomCardNumber = randomNumber(cardDeck.length);
         let computerCard = cardDeck[randomCardNumber];
@@ -97,54 +114,51 @@
 
         displayCard(computerCard.cardName, computerCard.imgSrc, 'computer-cards');
         computerTempScoreElement.innerHTML = `Computer has: ${tempComputerScore} points`;
-        if (tempComputerScore > 21){
-            document.getElementById('computer-text').innerHTML = `It is more then computer needs. Bingo, you won`;
-            userScore += 1;
-            score.innerHTML = `SmartUser ${userScore} : ${computerScore} Computer`;
-            takeCardElement.classList.add('display-none');
-            enoughCardElement.classList.add('display-none');
-            playAgainElement.classList.remove('display-none');
-        }
         cardDeck.splice(randomCardNumber, 1);
+
+        if (tempComputerScore > 21){
+            gameResultElement.innerHTML = `Computer took more then it needs. Congratulations! You won!!!!!!`;
+            userScore += 1;
+            displayScore();
+            displayPlayAgainButton();
+        }
     }
+
     let enoughCard = () =>{
-        takeCardElement.classList.add('display-none');
-        enoughCardElement.classList.add('display-none');
+        hideUserButtons();
         do {
-                computerPlay();
+            computerPlay();
         }
         while (tempComputerScore<=18);
 
-        if (tempUserScore == tempComputerScore){
-            gameResultElement.innerHTML = `Both of you has ${tempComputerScore}. Nobody won`
+        if ((tempUserScore == tempComputerScore) && (tempUserScore <=21) && (tempComputerScore <=21)){
+            gameResultElement.innerHTML = `Both of you has ${tempComputerScore}. Nobody won`;
         }
-        if (tempUserScore > tempComputerScore){
-            gameResultElement.innerHTML = `You won! Congratulations! Play again?`
+        if ((tempUserScore > tempComputerScore) && (tempUserScore <=21) && (tempComputerScore <=21)){
+            gameResultElement.innerHTML = `You won! Congratulations! Play again?`;
+            userScore +=1;
         }
-        if (tempUserScore > tempComputerScore){
-            gameResultElement.innerHTML = `It is pity, you lost. Revenge?`
+        if ((tempUserScore < tempComputerScore)&& (tempUserScore <=21) && (tempComputerScore <=21)){
+            gameResultElement.innerHTML = `It is pity, you lost. Revenge?`;
+            computerScore += 1;
         }
-        playAgainElement.classList.remove('display-none');
-
-
+        displayScore();
+        displayPlayAgainButton();
     }
 
     let playAgain = ()=>{
-        takeCardElement.classList.remove('display-none');
-        enoughCardElement.classList.remove('display-none');
-        playAgainElement.classList.add('display-none');
+        displayUserButtons();
+        hidePlayAgainButton();
         cardDeck = cards();
         tempComputerScore = 0;
         tempUserScore = 0;
         gameResultElement.innerHTML = '';
         computerTempScoreElement.innerHTML = '';
         userTempScoreElement.innerHTML = '';
-        document.getElementById('computer-text').innerHTML = '';
-        document.getElementById('user-text').innerHTML = '';
         document.getElementById('user-cards').innerHTML = '';
         document.getElementById('computer-cards').innerHTML = '';
-
     }
+
     let cardDeck = cards();
 
     takeCardElement.addEventListener('click', takeCardUser);
